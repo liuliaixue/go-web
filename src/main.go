@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	study "./study"
+)
 
 func main() {
 	fmt.Println("main is running")
+
+	study.HttpClientGet()
 }

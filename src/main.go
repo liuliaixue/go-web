@@ -9,5 +9,5 @@ import (
 func main() {
 	fmt.Println("main is running")
 
-	study.HttpClientGet()
+	study.Entry()
 }

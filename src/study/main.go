@@ -2,5 +2,8 @@ package study
 
 func Entry() {
 	// httpClientGet()
-	httpServer()
+	//httpServer()
+	// httpServer2()
+
+	addUser()
 }

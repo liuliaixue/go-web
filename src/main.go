@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-
-	study "./study"
+	"study"
 )
 
 func main() {

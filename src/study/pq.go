@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	// import pq
 	_ "github.com/lib/pq"
 )
 
@@ -28,6 +29,5 @@ func addUser() {
 		var name string
 		err = rows.Scan(&id, &name)
 		fmt.Println(id, name)
-		fmt.Println("lalala")
 	}
 }

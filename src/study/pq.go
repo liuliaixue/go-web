@@ -46,7 +46,6 @@ func AddNote(userID string, content string) {
 		fmt.Printf("error")
 		log.Fatal(err)
 	}
+	db.Close()
 	fmt.Println(rows)
-
-	fmt.Println("nice")
 }

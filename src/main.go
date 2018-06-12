@@ -51,6 +51,7 @@ func addNote(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("content is : %s\n", content)
 		study.AddNote(userID, content)
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write([]byte("The time is: "))
 }
 

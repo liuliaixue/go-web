@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -55,10 +56,25 @@ func addNote(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("The time is: "))
 }
 
+func getNotes(w http.ResponseWriter, r *http.Request) {
+	res := study.GetNote()
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	// w.Write([]byte("The time is: "))
+	b, err := json.Marshal(res)
+	if err != nil {
+		fmt.Println("Marshal error")
+	}
+
+	w.Header().Set("content-type", "application/json")
+
+	w.Write([]byte(b))
+}
+
 func server() {
 	// http.HandleFunc("/", sayhelloName)
 	http.HandleFunc("/time", sayhelloDate) //设置访问的路由
 	http.HandleFunc("/note/add", addNote)
+	http.HandleFunc("/notes", getNotes)
 	err := http.ListenAndServe(":9090", nil) //设置监听的端口
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

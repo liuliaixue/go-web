@@ -8,13 +8,11 @@ import (
 	"strings"
 	"study"
 	"time"
-	// "study"
 )
 
 func main() {
 	fmt.Println("main is running")
 	server()
-	// study.Entry()
 }
 
 func sayhelloName(w http.ResponseWriter, r *http.Request) {
@@ -65,16 +63,17 @@ func getNotes(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Marshal error")
 	}
 
-	w.Header().Set("content-type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 
 	w.Write([]byte(b))
 }
 
 func server() {
-	// http.HandleFunc("/", sayhelloName)
+	http.HandleFunc("/", sayhelloName)
 	http.HandleFunc("/time", sayhelloDate) //设置访问的路由
 	http.HandleFunc("/note/add", addNote)
 	http.HandleFunc("/notes", getNotes)
+	fmt.Println("server is listenning 9090")
 	err := http.ListenAndServe(":9090", nil) //设置监听的端口
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

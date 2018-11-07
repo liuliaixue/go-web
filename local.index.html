@@ -40,13 +40,9 @@
 <body>
     <div id="header"> my notes</div>
     <div id="content">
-        <ul>
-            <li>2018-06-12 this is a note</li>
-            <li>2018-06-12 this is a note</li>
-            <li>2018-06-12 this is a note</li>
-            <li>2018-06-12 this is a note</li>
-            <li>2018-06-12 this is a note</li>
-            <li>2018-06-12 this is a note</li>
+        <ul id="content-list">
+            <li>2018-06-12 数据加载错误</li>
+
         </ul>
 
     </div>
@@ -56,25 +52,59 @@
     </div>
 </body>
 <script>
-    var submit = () => {
+
+
+
+    const submit = () => {
         console.log("submit")
-        var content = document.getElementById("input").value
+        const content = document.getElementById("input").value
+        const url = "http://localhost:9090/note/add";
+        const xmlhttp = new XMLHttpRequest();
 
-        var url = "http://localhost:9090/note/add";
-        xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.onreadystatechange = state_Change;
-        xmlhttp.open("POST", url, true);
-        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-
-        var params = `userID=1&content=${content}`
-        console.log(params)
-        xmlhttp.send(params);
-        var state_Change = function () {
+        const state_Change = function () {
             console.log(xmlhttp.readyState, xmlhttp.status)
             if (xmlhttp.readyState == 4) {// 4 = "loaded"
                 if (xmlhttp.status == 200) {// 200 = OK
                     console.log('success')
+                    reload()
+                }
+                else {
+                    console.log("Problem retrieving XML data");
+                }
+            }
+        }
+        xmlhttp.onreadystatechange = state_Change;
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+
+        const params = `userID=1&content=${content}`
+        console.log(params)
+        xmlhttp.send(params);
+
+    }
+
+    const reload = () => {
+
+        const url = "http://localhost:9090/notes";
+        const xmlhttp = new XMLHttpRequest();
+
+
+        const offset = 0
+        const params = `limit=10&offset=${offset}`
+
+        const state_Change = function () {
+            console.log(xmlhttp.readyState, xmlhttp.status)
+            if (xmlhttp.readyState == 4) {// 4 = "loaded"
+                if (xmlhttp.status == 200) {// 200 = OK
+                    console.log('success')
+                    const res = JSON.parse(xmlhttp.response)
+                    console.log(xmlhttp.response)
+                    const html = res.map(item =>
+
+                        `<li>${item.CreateAt}  ${item.Content}</li>`
+                    )
+                    console.log(html)
+                    document.getElementById("content").innerHTML = html.join("\n")
                 }
                 else {
                     console.log("Problem retrieving XML data");
@@ -82,7 +112,15 @@
             }
         }
 
+        xmlhttp.onreadystatechange = state_Change;
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+
+        xmlhttp.send(params);
+
     }
+
+    window.onload = reload()
 </script>
 
 </html>

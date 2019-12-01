@@ -6,8 +6,9 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"study"
 	"time"
+
+	"liuliaixue/go-web/src/study"
 )
 
 func main() {
